@@ -443,7 +443,7 @@ def create_venue_submission():
     # TODO: modify data to be the data object returned from db insertion
     form = VenueForm()
     error_in_create_new_venue = False
-    return str(form.validate_on_submit())
+
     if form.validate_on_submit():
 
         name = form.name.data.strip()
@@ -466,26 +466,25 @@ def create_venue_submission():
             seeking_talent = False
 
         seeking_description = form.seeking_description.data.strip()
-        # image_link = form.image_link.data.strip()
-        # website = form.website.data.strip()
-        # facebook_link = form.facebook_link.data.strip()
+        image_link = form.image_link.data.strip()
+        website = form.website.data.strip()
+        facebook_link = form.facebook_link.data.strip()
 
     else:
         flash("Input is incorrect")
         return redirect(url_for("create_venue_submission"))
 
-    new_venue = Venue(name=name,
-                      address=address,
-                      city=city,
-                      state=state,
-                      phone=phone,
-                      website=website,
-                      facebook_link=facebook_link,
-                      seeking_talent=seeking_talent,
-                      seeking_description=seeking_description,
-                      image_link=image_link)
-
     try:
+        new_venue = Venue(name=name,
+                          address=address,
+                          city=city,
+                          state=state,
+                          phone=phone,
+                          website=website,
+                          facebook_link=facebook_link,
+                          seeking_talent=seeking_talent,
+                          seeking_description=seeking_description,
+                          image_link=image_link)
         db.session.add(new_venue)
         db.session.commit()
 

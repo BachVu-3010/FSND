@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask_wtf import FlaskForm
+from flask_wtf import Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
 from wtforms.validators import DataRequired, AnyOf, URL, Optional
 
@@ -18,7 +18,7 @@ class ShowForm(Form):
     )
 
 
-class VenueForm(FlaskForm):
+class VenueForm(Form):
     name = StringField(
         'name', validators=[DataRequired()]
     )
@@ -88,10 +88,10 @@ class VenueForm(FlaskForm):
         'phone', validators=[DataRequired()]
     )
     image_link = StringField(
-        'image_link', validators=[Optional(), URL()]    # Can chain these
+        'image_link', validators=[DataRequired()]
     )
     website = StringField(
-        'website', validators=[Optional(), URL()]
+        'website', validators=[Optional()]
     )
     seeking_talent = SelectField(
         'seeking_talent', validators=[DataRequired()],
@@ -103,32 +103,8 @@ class VenueForm(FlaskForm):
     seeking_description = StringField(
         'seeking_description', validators=[Optional()]
     )
-    genres = SelectMultipleField(
-        'genres', validators=[DataRequired()],
-        choices=[
-            ('Alternative', 'Alternative'),
-            ('Blues', 'Blues'),
-            ('Classical', 'Classical'),
-            ('Country', 'Country'),
-            ('Electronic', 'Electronic'),
-            ('Folk', 'Folk'),
-            ('Funk', 'Funk'),
-            ('Hip-Hop', 'Hip-Hop'),
-            ('Heavy Metal', 'Heavy Metal'),
-            ('Instrumental', 'Instrumental'),
-            ('Jazz', 'Jazz'),
-            ('Musical Theatre', 'Musical Theatre'),
-            ('Pop', 'Pop'),
-            ('Punk', 'Punk'),
-            ('R&B', 'R&B'),
-            ('Reggae', 'Reggae'),
-            ('Rock n Roll', 'Rock n Roll'),
-            ('Soul', 'Soul'),
-            ('Other', 'Other'),
-        ]
-    )
     facebook_link = StringField(
-        'facebook_link', validators=[Optional(), URL()]
+        'facebook_link', validators=[Optional()]
     )
 
 
