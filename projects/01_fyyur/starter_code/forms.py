@@ -1,7 +1,8 @@
 from datetime import datetime
-from flask_wtf import Form
+from flask_wtf import FlaskForm, Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
 from wtforms.validators import DataRequired, AnyOf, URL
+
 
 class ShowForm(Form):
     artist_id = StringField(
@@ -13,10 +14,11 @@ class ShowForm(Form):
     start_time = DateTimeField(
         'start_time',
         validators=[DataRequired()],
-        default= datetime.today()
+        default=datetime.today()
     )
 
-class VenueForm(Form):
+
+class VenueForm(FlaskForm):
     name = StringField(
         'name', validators=[DataRequired()]
     )
@@ -76,17 +78,20 @@ class VenueForm(Form):
             ('WA', 'WA'),
             ('WV', 'WV'),
             ('WI', 'WI'),
-            ('WY', 'WY'),
+            ('WY', 'WY')
         ]
     )
     address = StringField(
         'address', validators=[DataRequired()]
     )
     phone = StringField(
-        'phone'
+        'phone', validators=[DataRequired()]
     )
     image_link = StringField(
-        'image_link'
+        'image_link', validators=[URL()]    # Can chain these
+    )
+    website = StringField(
+        'website', validators=[URL()]
     )
     genres = SelectMultipleField(
         # TODO implement enum restriction
@@ -110,12 +115,21 @@ class VenueForm(Form):
             ('Reggae', 'Reggae'),
             ('Rock n Roll', 'Rock n Roll'),
             ('Soul', 'Soul'),
-            ('Other', 'Other'),
+            ('Other', 'Other')
         ]
     )
     facebook_link = StringField(
         'facebook_link', validators=[URL()]
     )
+
+    seeking_talent = SelectField("seeking_talent", validators=[
+                                 DataRequired()], choices=[
+        ('YES', 'YES'),
+        ('NO', 'NO')])
+
+    seeking_description = StringField(
+        "seeking_description")
+
 
 class ArtistForm(Form):
     name = StringField(
@@ -216,5 +230,11 @@ class ArtistForm(Form):
         # TODO implement enum restriction
         'facebook_link', validators=[URL()]
     )
+    seeking_talent = SelectField("seeking_talent", validators=[
+        DataRequired()], choices=["YES", "NO"])
+
+    seeking_description = StringField(
+        "seeking_description")
+
 
 # TODO IMPLEMENT NEW ARTIST FORM AND NEW SHOW FORM
