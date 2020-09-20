@@ -1,7 +1,7 @@
 from datetime import datetime
-from flask_wtf import FlaskForm, Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
-from wtforms.validators import DataRequired, AnyOf, URL
+from wtforms.validators import DataRequired, AnyOf, URL, Optional
 
 
 class ShowForm(Form):
@@ -78,7 +78,7 @@ class VenueForm(FlaskForm):
             ('WA', 'WA'),
             ('WV', 'WV'),
             ('WI', 'WI'),
-            ('WY', 'WY')
+            ('WY', 'WY'),
         ]
     )
     address = StringField(
@@ -88,13 +88,22 @@ class VenueForm(FlaskForm):
         'phone', validators=[DataRequired()]
     )
     image_link = StringField(
-        'image_link', validators=[URL()]    # Can chain these
+        'image_link', validators=[Optional(), URL()]    # Can chain these
     )
     website = StringField(
-        'website', validators=[URL()]
+        'website', validators=[Optional(), URL()]
+    )
+    seeking_talent = SelectField(
+        'seeking_talent', validators=[DataRequired()],
+        choices=[
+            ('Yes', 'Yes'),
+            ('No', 'No')
+        ]
+    )
+    seeking_description = StringField(
+        'seeking_description', validators=[Optional()]
     )
     genres = SelectMultipleField(
-        # TODO implement enum restriction
         'genres', validators=[DataRequired()],
         choices=[
             ('Alternative', 'Alternative'),
@@ -115,20 +124,12 @@ class VenueForm(FlaskForm):
             ('Reggae', 'Reggae'),
             ('Rock n Roll', 'Rock n Roll'),
             ('Soul', 'Soul'),
-            ('Other', 'Other')
+            ('Other', 'Other'),
         ]
     )
     facebook_link = StringField(
-        'facebook_link', validators=[URL()]
+        'facebook_link', validators=[Optional(), URL()]
     )
-
-    seeking_talent = SelectField("seeking_talent", validators=[
-                                 DataRequired()], choices=[
-        ('YES', 'YES'),
-        ('NO', 'NO')])
-
-    seeking_description = StringField(
-        "seeking_description")
 
 
 class ArtistForm(Form):
