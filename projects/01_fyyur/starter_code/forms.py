@@ -106,7 +106,30 @@ class VenueForm(Form):
     image_link = StringField(
         'image_link', validators=[Optional()]
     )
-
+    genres = SelectMultipleField(
+        'genres', validators=[DataRequired()],
+        choices=[
+            ('Alternative', 'Alternative'),
+            ('Blues', 'Blues'),
+            ('Classical', 'Classical'),
+            ('Country', 'Country'),
+            ('Electronic', 'Electronic'),
+            ('Folk', 'Folk'),
+            ('Funk', 'Funk'),
+            ('Hip-Hop', 'Hip-Hop'),
+            ('Heavy Metal', 'Heavy Metal'),
+            ('Instrumental', 'Instrumental'),
+            ('Jazz', 'Jazz'),
+            ('Musical Theatre', 'Musical Theatre'),
+            ('Pop', 'Pop'),
+            ('Punk', 'Punk'),
+            ('R&B', 'R&B'),
+            ('Reggae', 'Reggae'),
+            ('Rock n Roll', 'Rock n Roll'),
+            ('Soul', 'Soul'),
+            ('Other', 'Other'),
+        ]
+    )
 
 
 class ArtistForm(Form):
@@ -191,30 +214,30 @@ class ArtistForm(Form):
     seeking_description = StringField(
         'seeking_description', validators=[Optional()]
     )
-    # genres = SelectMultipleField(
-    #     'genres', validators=[DataRequired()],
-    #     choices=[
-    #         ('Alternative', 'Alternative'),
-    #         ('Blues', 'Blues'),
-    #         ('Classical', 'Classical'),
-    #         ('Country', 'Country'),
-    #         ('Electronic', 'Electronic'),
-    #         ('Folk', 'Folk'),
-    #         ('Funk', 'Funk'),
-    #         ('Hip-Hop', 'Hip-Hop'),
-    #         ('Heavy Metal', 'Heavy Metal'),
-    #         ('Instrumental', 'Instrumental'),
-    #         ('Jazz', 'Jazz'),
-    #         ('Musical Theatre', 'Musical Theatre'),
-    #         ('Pop', 'Pop'),
-    #         ('Punk', 'Punk'),
-    #         ('R&B', 'R&B'),
-    #         ('Reggae', 'Reggae'),
-    #         ('Rock n Roll', 'Rock n Roll'),
-    #         ('Soul', 'Soul'),
-    #         ('Other', 'Other'),
-    #     ]
-    # )
+    genres = SelectMultipleField(
+        'genres', validators=[DataRequired()],
+        choices=[
+            ('Alternative', 'Alternative'),
+            ('Blues', 'Blues'),
+            ('Classical', 'Classical'),
+            ('Country', 'Country'),
+            ('Electronic', 'Electronic'),
+            ('Folk', 'Folk'),
+            ('Funk', 'Funk'),
+            ('Hip-Hop', 'Hip-Hop'),
+            ('Heavy Metal', 'Heavy Metal'),
+            ('Instrumental', 'Instrumental'),
+            ('Jazz', 'Jazz'),
+            ('Musical Theatre', 'Musical Theatre'),
+            ('Pop', 'Pop'),
+            ('Punk', 'Punk'),
+            ('R&B', 'R&B'),
+            ('Reggae', 'Reggae'),
+            ('Rock n Roll', 'Rock n Roll'),
+            ('Soul', 'Soul'),
+            ('Other', 'Other'),
+        ]
+    )
     facebook_link = StringField(
         'facebook_link', validators=[Optional()]   
     )
