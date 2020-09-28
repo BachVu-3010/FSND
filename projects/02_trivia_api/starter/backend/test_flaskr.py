@@ -1,11 +1,10 @@
+from models import setup_db, Question, Category
+from app import create_app
 import os
 import sys
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
-
-from app import create_app
-from .models import setup_db, Question, Category
 
 
 class TriviaTestCase(unittest.TestCase):

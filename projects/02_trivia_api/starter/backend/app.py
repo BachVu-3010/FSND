@@ -1,11 +1,10 @@
+import random
+from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request, abort, jsonify
+from models import setup_db, Question, Category
 import os
 import sys
-
-from .models import setup_db, Question, Category
-from flask import Flask, request, abort, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
-import random
 
 
 QUESTIONS_PER_PAGE = 10
@@ -251,3 +250,7 @@ def create_app():
         })
 
     return app
+
+
+if __name__ == "__main__":
+    app.run()
