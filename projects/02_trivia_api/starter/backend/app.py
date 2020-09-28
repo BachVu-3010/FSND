@@ -137,7 +137,7 @@ def create_app():
         try:
             questions = Question.query.filter(Question.category == id).all()
 
-            if len(q_list) == 0:
+            if len(questions) == 0:
                 # Requested a page that does not exist
                 abort(404)
 
