@@ -44,6 +44,23 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["categories"]["2"], "Art")
         self.assertEqual(data["total_questions"], 19)
 
+    def test_get_questions_by_category(self):
+
+        response = self.client().get("/api/categories/1/questions")
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data["current_category"], "Science")
+        self.assertEqual(data["total_questions"], 3)
+
+    def test_get_questions_by_category_error(self):
+
+        response = self.client().get("/api/categories/100/questions")
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['error'], 404)
+
     def test_delete_question(self):
 
         sample_quetion = {
@@ -99,36 +116,27 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
-        self.assertEqual(data["rendered_questions"], 10)
+        self.assertEqual(data["total_exhibited_questions"], 10)
 
-    def test_page_doesnt_exist(self):
-        # For non-existent page return error 404
-        response = self.client().get('/api/questions?page=1000')
-        data = json.loads(response.data)
+    # def test_create_question(self):
 
-        # Now using API-friendly custom error handlers
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(data['error'], 404)
+    #     sample_quetion = {
+    #         "question": "what is the date today",
+    #         "answer": "Hom nay la thu bay",
+    #         "category": 4,
+    #         "difficulty": 5
+    #     }
 
-    def test_create_question(self):
+    #     # Create a test question to delete
 
-        sample_quetion = {
-            "question": "what is the date today",
-            "answer": "Hom nay la thu bay",
-            "category": 4,
-            "difficulty": 5
-        }
+    #     test_question = Question(question=sample_quetion['question'], answer=sample_quetion['answer'],
+    #                              category=sample_quetion['category'], difficulty=sample_quetion['difficulty'])
 
-        # Create a test question to delete
+    #     response = self.client().post("/api/questions", json=sample_quetion)
+    #     data = json.loads(response.data)
 
-        test_question = Question(question=sample_quetion['question'], answer=sample_quetion['answer'],
-                                 category=sample_quetion['category'], difficulty=sample_quetion['difficulty'])
-
-        response = self.client().post("/api/questions", json=sample_quetion)
-        data = json.loads(response.data)
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(data["success"], True)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(data["success"], True)
 
 
 # Make the tests conveniently executable

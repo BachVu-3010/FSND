@@ -38,36 +38,30 @@ def create_app():
 
         page = request.args.get("page", 1, type=int)
 
-        try:
-            questions = Question.query.all()
-            total_questions = len(questions)
-            min_index = (page - 1) * QUESTIONS_PER_PAGE
-            max_index = page * QUESTIONS_PER_PAGE
+        questions = Question.query.all()
+        total_questions = len(questions)
+        min_index = (page - 1) * QUESTIONS_PER_PAGE
+        max_index = page * QUESTIONS_PER_PAGE
 
-            if max_index > total_questions:
-                max_index = total_questions
+        questions_view = questions[min_index: max_index]
+        if len(questions_view) == 0:
+            abort(404)
 
-            questions_view = questions[min_index: max_index]
-            questions_reformatted = [question.format()
-                                     for question in questions_view]
+        questions_reformatted = [question.format()
+                                 for question in questions_view]
 
-            categories = Category.query.all()
-            categories_reformatted = {
-                category.id: category.type for category in categories}
+        categories = Category.query.all()
+        categories_reformatted = {
+            category.id: category.type for category in categories}
 
-            return jsonify({
-                "success": True,
-                "questions": questions_reformatted,
-                "total_questions": total_questions,
-                "categories": categories_reformatted,
-                "current_category": None,
-                "total_exhibited_questions": len(questions_view)
-            })
-        except:
-            return jsonify({
-                "success": False
-
-            })
+        return jsonify({
+            "success": True,
+            "questions": questions_reformatted,
+            "total_questions": total_questions,
+            "categories": categories_reformatted,
+            "current_category": None,
+            "total_exhibited_questions": len(questions_view)
+        })
 
     @app.route('/api/questions', methods=["POST"])
     def add_question():
@@ -109,53 +103,42 @@ def create_app():
                         question=question, answer=answer, category=category, difficulty=difficulty)
 
                     new_question.insert()
+
+                    return jsonify({
+                        "success": True,
+                        "question": request_data["question"].strip(),
+                        "answer": request_data["answer"].strip(),
+                        "difficulty": difficulty,
+                        "category": category
+
+                    })
                 except:
                     # Issue creating new question?  422 means understood the request but couldn't do it
                     abort(422)
-
-                return jsonify({
-                    "success": True,
-                    "question": request_data["question"].strip(),
-                    "answer": request_data["answer"].strip(),
-                    "difficulty": request_data["difficulty"],
-                    "category": request_data["category"]
-
-                })
 
         except:
 
             abort(500)
 
-            # return jsonify({
-            #     "success": False
-            # })
-
     @app.route("/api/categories/<int:id>/questions", methods=["GET"])
     def get_questions_by_category(id):
 
-        try:
-            questions = Question.query.filter(Question.category == id).all()
+        questions = Question.query.filter(Question.category == id).all()
 
-            if len(questions) == 0:
-                # Requested a page that does not exist
-                abort(404)
+        if len(questions) == 0:
+            # Requested a page that does not exist
+            abort(404)
 
-            category = Category.query.get(id)
+        category = Category.query.get(id)
 
-            rendered_questions = [question.format() for question in questions]
+        rendered_questions = [question.format() for question in questions]
 
-            return jsonify({
-                "success": True,
-                "questions": rendered_questions,
-                "total_questions": len(rendered_questions),
-                "current_category": category.type
-            })
-
-        except:
-
-            return jsonify({
-                "success": False
-            })
+        return jsonify({
+            "success": True,
+            "questions": rendered_questions,
+            "total_questions": len(rendered_questions),
+            "current_category": category.type
+        })
 
     @app.route("/api/questions/<int:id>", methods=["DELETE"])
     def delete_question(id):
@@ -174,7 +157,8 @@ def create_app():
 
             return jsonify({
                 "success": True,
-                "Comment": f"Successfully delete question {question_name}"
+                "Comment": f"Successfully delete question {question_name}",
+                "deleted_id": id
             })
 
         except:
