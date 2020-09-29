@@ -27,7 +27,8 @@ def create_app():
             data = {category.id: category.type for category in categories}
             return jsonify({
                 "success": True,
-                "categories": data
+                "categories": data,
+                "number_of_categories": len(categories)
             })
         except:
 
@@ -109,7 +110,8 @@ def create_app():
                         "question": request_data["question"].strip(),
                         "answer": request_data["answer"].strip(),
                         "difficulty": difficulty,
-                        "category": category
+                        "category": category,
+                        "new_question_id": new_question.id
 
                     })
                 except:
@@ -197,9 +199,7 @@ def create_app():
 
         except:
 
-            return jsonify({
-                "error": False
-            })
+            abort(400)
 
     @app.errorhandler(400)
     def bad_request(error):
