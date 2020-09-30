@@ -5,22 +5,29 @@ from jose import jwt
 from urllib.request import urlopen
 
 
+# First, define three constants to communicate with Auth0 to validate users (tokens)
+
 AUTH0_DOMAIN = 'udacity-fsnd.auth0.com'
 ALGORITHMS = ['RS256']
 API_AUDIENCE = 'dev'
 
-## AuthError Exception
+# AuthError Exception
+# Secondly, define class AuthError to represent errors originated in this module
 '''
 AuthError Exception
 A standardized way to communicate auth failure modes
 '''
+
+
 class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
 
 
-## Auth Header
+# Auth Header
+# Third, define a function called get_token_auth_header.
+# The app will use this function to read Authorization headers to fetch their access tokens
 
 '''
 @TODO implement get_token_auth_header() method
@@ -30,8 +37,11 @@ class AuthError(Exception):
         it should raise an AuthError if the header is malformed
     return the token part of the header
 '''
+
+
 def get_token_auth_header():
-   raise Exception('Not Implemented')
+    raise Exception('Not Implemented')
+
 
 '''
 @TODO implement check_permissions(permission, payload) method
@@ -44,8 +54,11 @@ def get_token_auth_header():
     it should raise an AuthError if the requested permission string is not in the payload permissions array
     return true otherwise
 '''
+
+
 def check_permissions(permission, payload):
     raise Exception('Not Implemented')
+
 
 '''
 @TODO implement verify_decode_jwt(token) method
@@ -60,8 +73,11 @@ def check_permissions(permission, payload):
 
     !!NOTE urlopen has a common certificate error described here: https://stackoverflow.com/questions/50236117/scraping-ssl-certificate-verify-failed-error-for-http-en-wikipedia-org
 '''
+
+
 def verify_decode_jwt(token):
     raise Exception('Not Implemented')
+
 
 '''
 @TODO implement @requires_auth(permission) decorator method
@@ -73,7 +89,15 @@ def verify_decode_jwt(token):
     it should use the check_permissions method validate claims and check the requested permission
     return the decorator which passes the decoded payload to the decorated method
 '''
+
+# Define the requires_auth decorator.
+# All it does is to fetch the correct public key from Auth0 to validate tokens/
+# Instead of sharing static public keys, Auth0 uses the JWK specification to
+#  represent the cryptographic keys used for signing tokens.
+
+
 def requires_auth(permission=''):
+
     def requires_auth_decorator(f):
         @wraps(f)
         def wrapper(*args, **kwargs):
