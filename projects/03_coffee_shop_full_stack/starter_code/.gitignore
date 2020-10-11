@@ -2,7 +2,7 @@ venv/
 .vscode/
 __pycache__/
 test.db
-test_jwt.py
+backend/test_jwt.py
 
 # OS generated files #
 ######################
